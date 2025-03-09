@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <link href="public/assets/style.css" rel="stylesheet">
+    <title>Gradient CSS VS SVG</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@300;400;500;600;700&display=swap') layer(base);
+
+        @layer theme, base, components, utilities;
+
+        @layer theme {
+            :root, :host {
+                --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+                "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+                --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+                "Courier New", monospace;
+                --color-gray-200: oklch(0.928 0.006 264.531);
+                --color-black: #000;
+                --color-white: #fff;
+                --spacing: 0.25rem;
+                --text-3xl: 1.875rem;
+                --text-3xl--line-height: calc(2.25 / 1.875);
+                --font-weight-semibold: 600;
+                --default-font-family: var(--font-sans);
+                --default-font-feature-settings: var(--font-sans--font-feature-settings);
+                --default-font-variation-settings: var(
+                        --font-sans--font-variation-settings
+                );
+                --default-mono-font-family: var(--font-mono);
+                --default-mono-font-feature-settings: var(
+                        --font-mono--font-feature-settings
+                );
+                --default-mono-font-variation-settings: var(
+                        --font-mono--font-variation-settings
+                );
+            }
+        }
+
+        @layer base {
+            *, ::after, ::before, ::backdrop, ::file-selector-button {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                border: 0 solid;
+            }
+
+            html, :host {
+                line-height: 1.5;
+                -webkit-text-size-adjust: 100%;
+                tab-size: 4;
+                font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
+                font-feature-settings: var(--default-font-feature-settings, normal);
+                font-variation-settings: var(--default-font-variation-settings, normal);
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            body {
+                line-height: inherit;
+            }
+
+            hr {
+                height: 0;
+                color: inherit;
+                border-top-width: 1px;
+            }
+
+            abbr:where([title]) {
+                -webkit-text-decoration: underline dotted;
+                text-decoration: underline dotted;
+            }
+
+            h1, h2, h3, h4, h5, h6 {
+                font-size: inherit;
+                font-weight: inherit;
+            }
+
+            a {
+                color: inherit;
+                -webkit-text-decoration: inherit;
+                text-decoration: inherit;
+            }
+
+            b, strong {
+                font-weight: bolder;
+            }
+
+            code, kbd, samp, pre {
+                font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+                font-feature-settings: var(--default-mono-font-feature-settings, normal);
+                font-variation-settings: var(--default-mono-font-variation-settings, normal);
+                font-size: 1em;
+            }
+
+            small {
+                font-size: 80%;
+            }
+
+            sub, sup {
+                font-size: 75%;
+                line-height: 0;
+                position: relative;
+                vertical-align: baseline;
+            }
+
+            sub {
+                bottom: -0.25em;
+            }
+
+            sup {
+                top: -0.5em;
+            }
+
+            table {
+                text-indent: 0;
+                border-color: inherit;
+                border-collapse: collapse;
+            }
+
+            :-moz-focusring {
+                outline: auto;
+            }
+
+            progress {
+                vertical-align: baseline;
+            }
+
+            summary {
+                display: list-item;
+            }
+
+            ol, ul, menu {
+                list-style: none;
+            }
+
+            img, svg, video, canvas, audio, iframe, embed, object {
+                display: block;
+                vertical-align: middle;
+            }
+
+            img, video {
+                max-width: 100%;
+                height: auto;
+            }
+
+            button, input, select, optgroup, textarea, ::file-selector-button {
+                font: inherit;
+                font-feature-settings: inherit;
+                font-variation-settings: inherit;
+                letter-spacing: inherit;
+                color: inherit;
+                border-radius: 0;
+                background-color: transparent;
+                opacity: 1;
+            }
+
+            :where(select:is([multiple], [size])) optgroup {
+                font-weight: bolder;
+            }
+
+            :where(select:is([multiple], [size])) optgroup option {
+                padding-inline-start: 20px;
+            }
+
+            ::file-selector-button {
+                margin-inline-end: 4px;
+            }
+
+            ::placeholder {
+                opacity: 1;
+                color: color-mix(in oklab, currentColor 50%, transparent);
+            }
+
+            textarea {
+                resize: vertical;
+            }
+
+            ::-webkit-search-decoration {
+                -webkit-appearance: none;
+            }
+
+            ::-webkit-date-and-time-value {
+                min-height: 1lh;
+                text-align: inherit;
+            }
+
+
+            ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+                height: auto;
+            }
+
+            [hidden]:where(:not([hidden="until-found"])) {
+                display: none !important;
+            }
+        }
+
+        @layer utilities {
+            .absolute {
+                position: absolute;
+            }
+
+            .fixed {
+                position: fixed;
+            }
+
+            .relative {
+                position: relative;
+            }
+
+            .inset-0 {
+                inset: calc(var(--spacing) * 0);
+            }
+
+            .-z-10 {
+                z-index: calc(10 * -1);
+            }
+
+            .-z-20 {
+                z-index: calc(20 * -1);
+            }
+
+            .-z-30 {
+                z-index: calc(30 * -1);
+            }
+
+            .-z-40 {
+                z-index: calc(40 * -1);
+            }
+
+            .-z-50 {
+                z-index: calc(50 * -1);
+            }
+
+            .grid {
+                display: grid;
+            }
+
+            .h-\[100dvh\] {
+                height: 100dvh;
+            }
+
+            .h-\[200vh\] {
+                height: 200vh;
+            }
+
+            .w-screen {
+                width: 100vw;
+            }
+
+            .grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .place-items-center {
+                place-items: center;
+            }
+
+            .gap-8 {
+                gap: calc(var(--spacing) * 8);
+            }
+
+            .bg-black {
+                background-color: var(--color-black);
+            }
+
+            .text-3xl {
+                font-size: var(--text-3xl);
+                line-height: var(--tw-leading, var(--text-3xl--line-height));
+            }
+
+            .font-semibold {
+                --tw-font-weight: var(--font-weight-semibold);
+                font-weight: var(--font-weight-semibold);
+            }
+
+            .text-white {
+                color: var(--color-white);
+            }
+
+            .duration-150 {
+                --tw-duration: 150ms;
+                transition-duration: 150ms;
+            }
+        }
+
+        @layer base {
+            *, ::after, ::before, ::backdrop, ::file-selector-button {
+                border-color: var(--color-gray-200, currentColor);
+            }
+        }
+
+        html {
+            font-family: 'Inconsolata', monospace;
+        }
+
+        .background div {
+            background: linear-gradient(var(--bg-color-1), var(--bg-color-2), var(--bg-color-3), var(--bg-color-4), var(--bg-color-5));
+            transition: opacity .7s linear;
+        }
+
+        .background div:not(:first-child) {
+            opacity: 0;
+        }
+
+        .background div:nth-child(1) {
+            --bg-color-1: #8c63fe;
+            --bg-color-2: #694bb9;
+            --bg-color-3: #473478;
+            --bg-color-4: #312551;
+            --bg-color-5: #221a38;
+        }
+
+        .background div:nth-child(2) {
+            --bg-color-1: #b123fd;
+            --bg-color-2: #9721D7;
+            --bg-color-3: #72198e;
+            --bg-color-4: #511264;
+            --bg-color-5: #370c45;
+        }
+
+        .background div:nth-child(3) {
+            --bg-color-1: #ef7a2c;
+            --bg-color-2: #e86b19;
+            --bg-color-3: #c44200;
+            --bg-color-4: #9e3100;
+            --bg-color-5: #7c2000;
+        }
+
+        .background div:nth-child(4) {
+            --bg-color-1: #5dd668;
+            --bg-color-2: #2ebc42;
+            --bg-color-3: #1d8e2e;
+            --bg-color-4: #0e5d18;
+            --bg-color-5: #06360a;
+        }
+
+        .background div:nth-child(5) {
+            --bg-color-1: #56a3f8;
+            --bg-color-2: #2c87e5;
+            --bg-color-3: #156aa1;
+            --bg-color-4: #0e4a6d;
+            --bg-color-5: #072e43;
+        }
+
+        #dynamicGradient stop {
+            transition: stop-color .7s linear;
+        }
+
+        @property --tw-font-weight {
+            syntax: "*";
+            inherits: false;
+        }
+
+        @property --tw-duration {
+            syntax: "*";
+            inherits: false;
+        }
+
+    </style>
+</head>
+<body class="h-[200vh]">
+<div class="h-[100dvh] fixed w-screen grid-cols-2 grid bg-black gap-8">
+    <div class="background relative">
+        <div class="duration-150 absolute inset-0 -z-50"></div>
+        <div class="duration-150 absolute inset-0 -z-40"></div>
+        <div class="duration-150 absolute inset-0 -z-30"></div>
+        <div class="duration-150 absolute inset-0 -z-20"></div>
+        <div class="duration-150 absolute inset-0 -z-10"></div>
+        <p class="text-white text-3xl font-semibold absolute inset-0 grid place-items-center">
+            Via CSS
+        </p>
+    </div>
+    <div class="relative">
+        <p class="text-white text-3xl font-semibold absolute inset-0 grid place-items-center">
+            Via SVG
+        </p>
+        <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="url(#dynamicGradient)" height="100%" width="100%"/>
+            <linearGradient id="dynamicGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+                <stop offset="0%" stop-color="#8c63fe"/>
+                <stop offset="25%" stop-color="#694bb9"/>
+                <stop offset="50%" stop-color="#473478"/>
+                <stop offset="75%" stop-color="#312551"/>
+                <stop offset="100%" stop-color="#201735"/>
+            </linearGradient>
+        </svg>
+    </div>
+</div>
+</body>
+<script>
+
+    const bgColors = [
+        ['#8c63fe', '#694bb9', '#473478', '#312551', '#201735'],
+        ['#b123fd', '#9721D7', '#72198e', '#511264', '#370c45'],
+        ['#ef7a2c', '#e86b19', '#c44200', '#9e3100', '#7c2000'],
+        ['#5dd668', '#2ebc42', '#1d8e2e', '#0e5d18', '#06360a'],
+        ['#56a3f8', '#2c87e5', '#156aa1', '#0e4a6d', '#072e43'],
+    ];
+    let currentGradient = 1;
+    const bgGradients = document.querySelectorAll('.background div:not(:first-child)');
+    let exScrollPercent = 0;
+    let direction = "down";
+    document.addEventListener('scroll', () => {
+        const scrollPercent = (document.body.scrollTop + document.documentElement.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight);
+        scrollPercent > exScrollPercent ? direction = "down" : direction = "up";
+        exScrollPercent = scrollPercent;
+        const sectionIndex = Math.round(scrollPercent * bgGradients.length);
+
+        if (direction === "down") {
+            if (sectionIndex !== 0) {
+                bgGradients[sectionIndex - 1].style.opacity = "1";
+            }
+        } else {
+            if (sectionIndex !== bgGradients.length) {
+                bgGradients[sectionIndex].style.opacity = "0";
+            }
+        }
+
+
+        document.querySelectorAll('#dynamicGradient stop').forEach((stop, index) => {
+            stop.setAttribute('stop-color', bgColors[sectionIndex][index]);
+        });
+
+
+    })
+</script>
+</html>
